@@ -1,0 +1,7 @@
+# To activate this run
+#
+# pip install -r requirements.txt
+
+# Packages
+
+beautifulsoup4==4.12.2

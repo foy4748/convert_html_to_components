@@ -2,10 +2,10 @@
 # Empty Template
 
 rfc = '''
-export default function {1}(){{
+export default function {a}(){{
     return(
     <>
-    {2}
+    {b}
     </>
     )
 }}

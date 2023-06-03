@@ -35,6 +35,13 @@ for html in htmls:
         ## BreadCrumb
         body.select('.breadcrumb-area')[0].extract() 
 
+
+        ## Partner Area
+        try:
+            body.select('.partner-area')[0].extract() 
+        except:
+            pass
+
         ## Footer
         body.select('.footer-contact-area')[0].extract() 
         

@@ -11,6 +11,9 @@ react_folder = os.path.join(BASE_DIR, "Components")
 
 htmls = os.listdir(html_folder)
 
+# Skipping .gitignore
+htmls.pop(0)
+
 for html in htmls:
     html_path = os.path.join(html_folder,html)
     component_name = pascalcase(os.path.splitext(os.path.basename(html))[0])
@@ -27,26 +30,29 @@ for html in htmls:
         # Clearing 
 
         ## Preloader 
-        body.select('#preloader')[0].extract()       
+        body.select('.preloader')[0].extract()       
 
         ## Header
-        body.select('header')[0].extract()           
+        body.select('.header-top-area')[0].extract()           
+        body.select('.header-area')[0].extract()           
 
         ## BreadCrumb
-        body.select('.breadcrumb-area')[0].extract() 
-
-
-        ## Partner Area
         try:
-            body.select('.partner-area')[0].extract() 
+            body.select('.breadcrumb-area')[0].extract() 
         except:
             pass
 
+
+
         ## Footer
-        body.select('.footer-contact-area')[0].extract() 
+        body.select('.footer-area')[0].extract() 
+        try:
+            body.select('.footer-bottom')[0].extract() 
+        except:
+            pass
         
         ## Scroll to Top button
-        body.select('#scrollTopButton')[0].extract() 
+        body.select('.progress-wrap')[0].extract() 
 
         ###
         

@@ -1,14 +1,27 @@
 import os, re
+from . import replace_links
 from bs4 import BeautifulSoup as BS4
 from caseconverter import pascalcase
 
-# Import one of these empty template below
+#########################################
+### Change this variable to switch
+### between React and Vue
+isReact = True
+#########################################
 
-# React Empty Component template
-# from rfc import rfc
+file_extension = ''
+if isReact:
+    file_extension = '.jsx'
+else:
+    file_extension = '.vue'
 
-# Vue Empty Component template
-from sfc import sfc
+# Importing empty template 
+
+## React Empty Component template
+from rfc import rfc
+
+## Vue Empty Component template
+ from sfc import sfc
 
 
 # Getting the path of html and Components folder
@@ -39,6 +52,10 @@ for html in htmls:
         # Soup means the object representing 
         # the DOM in your python code!
         soup = BS4(contents, 'html.parser')
+
+        # Replacing Links to NavLink or router-link
+        replace_links(soup, isReact)
+
         body = soup.body
 
         # Clearing Script Tags
@@ -55,12 +72,6 @@ for html in htmls:
         # body.select('.header-top-area')[0].extract()           
         body.select('.header-area')[0].extract()           
 
-        ## BreadCrumb
-        try:
-            body.select('.breadcrumb-area')[0].extract() 
-        except:
-            pass
-
 
         ## Footer
         body.select('.footer-area')[0].extract() 
@@ -70,7 +81,10 @@ for html in htmls:
             pass
         
         ## Scroll to Top button
-        body.select('.go-top')[0].extract() 
+        try:
+            body.select('.progress-wrap')[0].extract() 
+        except:
+            pass
 
         ###
         
@@ -78,13 +92,15 @@ for html in htmls:
         # So that Regular Expression can be applied
         body_txt = str(body)
 
-        # Converting class to className for JSX support
-        body_txt = re.sub(r'class=\"','className=\"', body_txt)
+        if isReact:
+            # Converting class to className for JSX support
+            #### You don't need this for Vue component conversion
+            body_txt = re.sub(r'class=\"','className=\"', body_txt)
 
-        # Converting Comments for JSX support
-        #### You don't need this for Vue component conversion
-        # body_txt = re.sub(r"<!--", "{/*", body_txt)
-        # body_txt = re.sub(r"-->", "*/}", body_txt)
+            # Converting Comments for JSX support
+            #### You don't need this for Vue component conversion
+            body_txt = re.sub(r"<!--", "{/*", body_txt)
+            body_txt = re.sub(r"-->", "*/}", body_txt)
 
         # Removing excess body Tag
         body_txt = re.sub(r"</?body>","", body_txt)
@@ -93,10 +109,12 @@ for html in htmls:
 
         ################## Tweak here for React or Vue ##################
         # Change the files extension --------------------------------------_V_
-        component_file = os.path.join(component_folder, component_name + ".vue")
+        component_file = os.path.join(component_folder, component_name + file_extension)
         with open(component_file,'w', encoding='utf-8') as f:
 
             # Switch 'comment out' between these two lines
-            # f.write(rfc.format(a=component_name,b=body_txt)) # For React
-            f.write(sfc.format(b=body_txt)) # For Vue
+            if isReact:
+                f.write(rfc.format(a=component_name,b=body_txt)) # For React
+            else:
+                f.write(sfc.format(b=body_txt)) # For Vue
 

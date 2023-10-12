@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+beautifulsoup4 = "==4.12.2"
+case-converter = "==1.1.0"
+jedi-language-server = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

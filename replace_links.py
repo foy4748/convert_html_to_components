@@ -19,5 +19,5 @@ def replace_links(soup, react):
 
             # Replacing href by to
             link.attrs['to'] = link.attrs.pop('href')
-            print(link)
+            #print(link)
 

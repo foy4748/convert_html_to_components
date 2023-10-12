@@ -1,5 +1,5 @@
 import os, re
-from . import replace_links
+from replace_links import replace_links
 from bs4 import BeautifulSoup as BS4
 from caseconverter import pascalcase
 
@@ -21,7 +21,7 @@ else:
 from rfc import rfc
 
 ## Vue Empty Component template
- from sfc import sfc
+from sfc import sfc
 
 
 # Getting the path of html and Components folder
@@ -70,8 +70,13 @@ for html in htmls:
 
         ## Header
         # body.select('.header-top-area')[0].extract()           
+
         body.select('.header-area')[0].extract()           
 
+
+        ## Mouse Cursor
+        for s in body.select(".mouseCursor"):
+            s.extract()
 
         ## Footer
         body.select('.footer-area')[0].extract() 
@@ -83,6 +88,28 @@ for html in htmls:
         ## Scroll to Top button
         try:
             body.select('.progress-wrap')[0].extract() 
+        except:
+            pass
+
+        ## Canvas Overlay
+        try:
+            body.select('.offcanvas-overly')[0].extract()
+        except:
+            pass
+        ## Off-canvas Extra Info
+        try:
+            body.select('.extra-info')[0].extract()
+        except:
+            pass
+
+        try:
+            body.select('.header-area')[1].extract()           
+        except:
+            pass
+
+        ## Breadcrumb
+        try:
+            body.select(".breadcrumb-area")[0].extract()
         except:
             pass
 
